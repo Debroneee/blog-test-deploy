@@ -29,7 +29,7 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-styled-components`,
+    // `gatsby-plugin-styled-components`,
     `gatsby-plugin-robots-txt`,
     `gatsby-plugin-sitemap`,
     `@pauliescanlon/gatsby-mdx-embed`,

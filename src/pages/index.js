@@ -65,7 +65,7 @@ export default ({ data }) => {
                         {timeToRead * 3} minutes to read
                       </div>
                     </div>
-                    <p className="post_text">{excerpt}</p>
+                    <p className="text">{excerpt}</p>
                   </div>
                 </div>
               </Link>

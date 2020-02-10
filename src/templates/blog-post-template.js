@@ -1,72 +1,10 @@
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import React from 'react';
 import SEO from 'react-seo-component';
 import ReactTooltip from 'react-tooltip';
-import { down } from 'styled-breakpoints';
-import styled from 'styled-components';
-import { A, H1 } from '../components/page-elements';
-import {
-  Link as GatsbyLink,
-  PostDate,
-  PostEditOnGitHub,
-  PostInfo,
-  PostTimeToRead,
-} from '../components/shared';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 
-// Переход на следующий и предыдущий пост
-
-const PostNavigationWrapper = styled.div`
-  margin: ${({ theme }) => theme.spacing[12]} -${({ theme }) => theme.spacing[8]};
-  display: grid;
-  grid-template-areas:
-    'prev'
-    'next';
-  ${down('sm')} {
-    grid-template-areas:
-      'prev'
-      'next';
-    margin: ${({ theme }) => theme.spacing[0]};
-  }
-`;
-
-const PrevNextWrapper = styled.div`
-  display: grid;
-  justify-items: ${props => props.justify};
-  margin-top: ${({ theme }) => theme.spacing[2]};
-`;
-
-const Link = styled(GatsbyLink)``;
-
-const Toc = styled.ul`
-  position: fixed;
-  left: calc(50% + 400px);
-  top: 80px;
-  max-height: 70vh;
-  width: 310px;
-  display: flex;
-  box-shadow: ${({ theme }) => theme.boxShadow.xl};
-  border-radius: ${({ theme }) => theme.borderRadius.default};
-  ${down('sm')} {
-    display: none;
-  }
-  h3 {
-    font-size: ${({ theme }) => theme.fontSize['2xl']};
-    font-family: ${({ theme }) => theme.font.serif};
-    margin-top: ${({ theme }) => theme.spacing[2]};
-  }
-  li {
-    line-height: ${({ theme }) => theme.lineHeight.tight};
-    margin-top: ${({ theme }) => theme.spacing[3]};
-  }
-`;
-
-const InnerScroll = styled.div`
-  overflow: hidden;
-  overflow-y: scroll;
-  margin: ${({ theme }) => theme.spacing[3]};
-`;
 
 export default ({ data, pageContext }) => {
   const {
@@ -108,13 +46,13 @@ export default ({ data, pageContext }) => {
         publishedDate={date}
         modifiedDate={new Date(Date.now()).toISOString()}
       />
-      <H1>{frontmatter.title}</H1>
-      <PostInfo>
-        <PostDate>{frontmatter.date}</PostDate>
-        <PostTimeToRead>
+      <h1>{frontmatter.title}</h1>
+      <div className="post_title">
+        <div className="post_date">{frontmatter.date}</div>
+        <div className="time_to_read">
           {timeToRead * 2} minutes to read
-        </PostTimeToRead>
-        <PostEditOnGitHub>
+        </div>
+        <div className="edit_githab">
           <a
             href={editLink}
             target="_blank"
@@ -122,26 +60,26 @@ export default ({ data, pageContext }) => {
           >
             Edit on GitHub
           </a>
-        </PostEditOnGitHub>
-      </PostInfo>
+        </div>
+      </div>
       <MDXRenderer>{body}</MDXRenderer>
       {typeof tableOfContents.items === 'undefined' ? null : (
-        <Toc>
-          <InnerScroll>
-            <h3>Table of contents</h3>
+        <ul className="side_table">
+          <div className="side_list">
+            <h3 className="side_title">Table of contents</h3>
             {tableOfContents.items.map(i => (
               <li>
-                <A href={i.url} key={i.url}>
+                <a href={i.url} key={i.url}>
                   {i.title}
-                </A>
+                </a>
               </li>
             ))}
-          </InnerScroll>
-        </Toc>
+          </div>
+        </ul>
       )}
       <ReactTooltip />
-      <PostNavigationWrapper>
-        <PrevNextWrapper justify={'start'}>
+      <div className="post_navigation">
+        <div className="prev_post">
           {previous === false ? null : (
             <>
               {previous && (
@@ -158,8 +96,8 @@ export default ({ data, pageContext }) => {
               )}
             </>
           )}
-        </PrevNextWrapper>
-        <PrevNextWrapper justify={'end'}>
+        </div>
+        <div className="next_post">
           {next === false ? null : (
             <>
               {next && (
@@ -173,8 +111,8 @@ export default ({ data, pageContext }) => {
               )}
             </>
           )}
-        </PrevNextWrapper>
-      </PostNavigationWrapper>
+        </div>
+      </div>
     </>
   );
 };

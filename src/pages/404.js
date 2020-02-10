@@ -1,47 +1,26 @@
 import React from 'react';
-import { isIE } from 'react-device-detect';
-import styled from 'styled-components';
-import {
-  IndexWrapper,
-  StyledExcerpt,
-  StyledLink,
-  StyledTitle,
-} from '../components/shared';
+import {Link} from 'gatsby';
+import {isIE} from 'react-device-detect';
 
-const PageWrapper = styled.div`
-  height: 100vh;
-  position: relative;
-`;
-
-const Styled404 = styled.div`
-  position: absolute;
-  top: 10%;
-  width: 100%;
-  font-size: ${({ theme }) => theme.fontSizeH2};
-`;
 
 export default () => {
-  if (isIE)
+    if (isIE)
+        return (
+            <main>
+                <h1>IE is not supported.</h1>
+                <p>
+                    Please use a modern browser, download Firefox, Chrome or
+                    Edge
+                </p>
+            </main>
+        );
     return (
-      <IndexWrapper>
-        <StyledTitle>IE is not supported.</StyledTitle>
-        <StyledExcerpt>
-          Please use a modern browser, download Firefox, Chrome or
-          Edge
-        </StyledExcerpt>
-      </IndexWrapper>
+        <>
+        <main>
+            <h1>That's a nope!</h1>
+            <p>You've come to a page that doesn't exist, pls go{' '}
+                <Link to="/">home.</Link></p>
+        </main>
+        </>
     );
-  return (
-    <>
-      <PageWrapper>
-        <Styled404>
-          <StyledTitle>That's a nope!</StyledTitle>
-          <StyledExcerpt>
-            You've come to a page that doesn't exist, pls go{' '}
-            <StyledLink to="/">home.</StyledLink>
-          </StyledExcerpt>
-        </Styled404>
-      </PageWrapper>
-    </>
-  );
 };
