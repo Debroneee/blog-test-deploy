@@ -1,37 +1,10 @@
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import Img from 'gatsby-image';
 import React from 'react';
 import { isIE } from 'react-device-detect';
 import SEO from 'react-seo-component';
-import styled from 'styled-components';
-import {
-  CopyWrapper,
-  IndexWrapper,
-  PostDate,
-  PostInfo,
-  PostTimeToRead,
-  StyledExcerpt,
-  StyledLink,
-  StyledTitle,
-} from '../components/shared';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
 
-const PostWrapper = styled.div`
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  box-shadow: ${({ theme }) => theme.boxShadow.lg};
-  color: ${({ theme }) => theme.colours.grey[900]};
-  overflow: hidden;
-`;
-
-const LinkWrapper = styled.div`
-  margin: ${({ theme }) => theme.spacing[8]} 0;
-  /* padding: 0 ${({ theme }) => theme.spacing[8]}; */
-`;
-
-const Image = styled(Img)`
-  height: ${({ theme }) => theme.spacing[56]};
-  object-fit: cover;
-`;
 
 export default ({ data }) => {
   const {
@@ -45,13 +18,13 @@ export default ({ data }) => {
   } = useSiteMetadata();
   if (isIE)
     return (
-      <IndexWrapper>
-        <StyledTitle>IE is not supported.</StyledTitle>
-        <StyledExcerpt>
+      <main>
+        <h1>IE is not supported.</h1>
+        <p>
           Please use a modern browser, download Firefox, Chrome or
           Edge
-        </StyledExcerpt>
-      </IndexWrapper>
+        </p>
+      </main>
     );
   return (
     <>
@@ -65,8 +38,7 @@ export default ({ data }) => {
         siteLocale={siteLocale}
         twitterUsername={twitterUsername}
       />
-      <IndexWrapper>
-        {/* <Dump data={data}></Dump> */}
+      <main>
         {data.allMdx.nodes.map(
           ({
             id,
@@ -75,31 +47,32 @@ export default ({ data }) => {
             fields: { slug, editLink },
             timeToRead,
           }) => (
-            <LinkWrapper key={id}>
-              <StyledLink to={slug}>
-                <PostWrapper>
+            <div className="post_preview" key={id}>
+              <Link to={slug}>
+                <div className="post_block">
                   {!!frontmatter.cover ? (
-                    <Image
+                    <Img
                       sizes={frontmatter.cover.childImageSharp.sizes}
                       alt={`cover image`}
+                      className="post__img"
                     />
                   ) : null}
-                  <CopyWrapper>
-                    <StyledTitle>{frontmatter.title}</StyledTitle>
-                    <PostInfo>
-                      <PostDate>{frontmatter.date}</PostDate>
-                      <PostTimeToRead>
-                        {timeToRead * 2} minutes to read
-                      </PostTimeToRead>
-                    </PostInfo>
-                    <StyledExcerpt>{excerpt}</StyledExcerpt>
-                  </CopyWrapper>
-                </PostWrapper>
-              </StyledLink>
-            </LinkWrapper>
+                  <div className="post_description">
+                    <h1 className="post_title">{frontmatter.title}</h1>
+                    <div className="post_info">
+                      <div className="post_date">{frontmatter.date}</div>
+                      <div className="time_to_read">
+                        {timeToRead * 3} minutes to read
+                      </div>
+                    </div>
+                    <p className="post_text">{excerpt}</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
           )
         )}
-      </IndexWrapper>
+      </main>
     </>
   );
 };

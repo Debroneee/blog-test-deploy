@@ -13,8 +13,9 @@ import {
   PostInfo,
   PostTimeToRead,
 } from '../components/shared';
-import { useAnalytics } from '../contexts/event-tracking';
 import { useSiteMetadata } from '../hooks/use-site-metadata';
+
+// Переход на следующий и предыдущий пост
 
 const PostNavigationWrapper = styled.div`
   margin: ${({ theme }) => theme.spacing[12]} -${({ theme }) => theme.spacing[8]};
@@ -87,7 +88,6 @@ export default ({ data, pageContext }) => {
   } = data.mdx;
   const { title, date, cover } = frontmatter;
   const { previous, next } = pageContext;
-  const fa = useAnalytics();
   return (
     <>
       <SEO
@@ -116,9 +116,6 @@ export default ({ data, pageContext }) => {
         </PostTimeToRead>
         <PostEditOnGitHub>
           <a
-            onClick={() => {
-              fa('MRMZX5TM');
-            }}
             href={editLink}
             target="_blank"
             rel="noopener noreferrer"
